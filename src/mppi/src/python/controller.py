@@ -92,7 +92,6 @@ def scan_occupancy(x1, y1):
         return 1
 
 
-
 #Runs the MPPI Control
 def control():
     # Setup the publisher to command the velocity
@@ -116,11 +115,24 @@ def control():
     msg.angular.x = 0.0
     msg.angular.y = 0.0
 
-    goals = queue.Queue()
-    goals.put([-2,3.8])
-    # goals.put([-3,3])
-    goals.put([-6,3])
-    goals.put([-6.5,1.0])
+    world_goals = queue.Queue()
+    world_goals.put([-0.5,-0.5])
+    world_goals.put([0.5,-0.9])
+    world_goals.put([1,-2])
+    world_goals.put([1.8,0])
+    world_goals.put([0.5,1.5])
+    world_goals.put([-2,1.3])
+    
+    house_goals = queue.Queue()
+    house_goals.put([-1,4])
+    house_goals.put([-6,3])
+    house_goals.put([-6.5,1.0])
+
+
+    # Which environment goals to use
+    # goals = world_goals
+    goals = house_goals
+
     goal_pos = goals.get()
     print("New Goal: " + str(goal_pos))
 
@@ -327,8 +339,6 @@ class MPPI:
   
             
             self.costs.append(cost)
-
-
     
 if __name__ == '__main__':
     try:
